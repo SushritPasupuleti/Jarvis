@@ -1,5 +1,7 @@
 import torch
-from transformers import LlamaTokenizer, LlamaForCausalLM
+from transformers import LlamaTokenizer, LlamaForCausalLM, pipeline
+from langchain import PromptTemplate, LLMChain
+from langchain.llms import HuggingFacePipeline
 
 if torch.cuda.is_available():
     device = torch.device("cuda")
@@ -15,6 +17,25 @@ tokenizer = LlamaTokenizer.from_pretrained(model_path)
 model = LlamaForCausalLM.from_pretrained(
     model_path, torch_dtype=torch.float16, device_map='auto',
 )
+
+pipe = pipeline(
+    "text-generation", model=model, tokenizer=tokenizer, max_new_tokens=10
+)
+hf = HuggingFacePipeline(pipeline=pipe)
+
+# prompt = """
+# Question: What is the largest animal?
+# """
+
+# hf(prompt)
+
+# llm_chain = LLMChain(prompt=prompt, llm=hf)
+
+# question = "What is the smallest animal?"
+
+# llm_chain.run(question)
+
+# print("Asking HF", hf('Q: What is the largest animal?\nA:'))
 
 prompt = 'Q: What is the largest animal?\nA:'
 input_ids = tokenizer(prompt, return_tensors="pt").input_ids

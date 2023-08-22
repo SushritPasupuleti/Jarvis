@@ -59,4 +59,5 @@ triton==2.0.0
 typing-inspect==0.9.0
 typing_extensions==4.7.1
 urllib3==2.0.4
+xformers==0.0.21
 yarl==1.9.2
