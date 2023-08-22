@@ -24,35 +24,37 @@ pipe = pipeline(
     "text-generation", 
     model=model, # pyright: ignore
     tokenizer=tokenizer, 
-    max_new_tokens=2**8,
+    max_new_tokens=2**9,
     device=device,
 )
 hf = HuggingFacePipeline(pipeline=pipe)
 
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
-template = """Question: {question}
+template = """{question}
 
-Answer: 
+Provide a code example in Python.
 """
 
-question = "Explain recursion to me. With a code example in Python."
+# template = """{question}"""
+
+question = "Explain recursion to me."
 
 prompt = PromptTemplate(template=template, input_variables=['question'])
-
-# hf(prompt)
 
 llm_chain = LLMChain(
     prompt=prompt, 
     llm=hf,
     callback_manager=callback_manager,
     verbose=True,
-    return_final_only=True,
+    # return_final_only=True,
 )
 
 answer = llm_chain.run(question)
+# print(answer)
+# print("=== FINAL ANSWER ===")
 # answer = llm_chain(question)
 # answer = llm_chain.predict(question=question)
-
 print(answer)
 
+# print("asking HF: ", hf(question))
