@@ -23,10 +23,10 @@ func main() {
 	}
 }
 
-func execJarvis() string {
+func execJarvis(message string) string {
 	// commands := []string{"pwd"}
 	// commands := []string{"pwd"}
-	cmd := exec.Command("./run.sh")
+	cmd := exec.Command("./run.sh", message)
 	// cmd := exec.Command(strings.Join(commands, " "))
 	cmd.Dir = "../model"
 	out, err := cmd.Output()
@@ -39,17 +39,17 @@ func execJarvis() string {
 	return string(out)
 }
 
-func execJarvisAsync() <-chan string {
-	reply := make(chan string)
-
-	go func() {
-		defer close(reply)
-
-		reply <- execJarvis()
-	}()
-
-	return reply
-}
+// func execJarvisAsync() <-chan string {
+// 	reply := make(chan string)
+//
+// 	go func() {
+// 		defer close(reply)
+//
+// 		reply <- execJarvis()
+// 	}()
+//
+// 	return reply
+// }
 
 type (
 	errMsg error
@@ -132,7 +132,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.messages = append(m.messages, m.senderStyle.Render("You: ")+m.textarea.Value())
 
 			var reply string
-			reply = execJarvis()
+			reply = execJarvis(m.textarea.Value())
 
 			m.messages = append(m.messages, m.replyStyle.Render("Jarvis: ") + reply)
 			m.thinking = false
