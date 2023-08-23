@@ -62,12 +62,12 @@ hf = HuggingFacePipeline(pipeline=pipe)
 
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
-template = """{question}
+# template = """{question}
+#
+# Provide a code example in Python.
+# """
 
-Provide a code example in Python.
-"""
-
-# template = """{question}"""
+template = """{question}"""
 
 question = "Explain recursion to me."
 
@@ -81,11 +81,7 @@ llm_chain = LLMChain(
     # return_final_only=True,
 )
 
-answer = llm_chain.run(question)
-# print(answer)
-# print("=== FINAL ANSWER ===")
-# answer = llm_chain(question)
-# answer = llm_chain.predict(question=question)
-print(answer)
+# answer = llm_chain.run(question)
 
-# print("asking HF: ", hf(question))
+# print(answer)
+
