@@ -10,6 +10,18 @@ Ensure you have the following installed:
 
 - [Go](https://golang.org/doc/install)
 
+- [Rust](https://www.rust-lang.org/tools/install)
+
+    - [Trunk](https://trunkrs.dev/)
+    
+        May need to run the following:
+
+        ```bash
+        rustup target add wasm32-unknown-unknown
+        ```
+
+    - [Riff Shell](https://www.riff.sh/) - For `nix` systems.
+
 Run the following commands:
 
 Activate virtual environment
@@ -69,4 +81,11 @@ go run .
 
 > [!WARNING]
 > This is still a work in progress. The CLI is fully blocking and will not return until the process is complete. It is advised to let the result appear before trying again, as too many calls will crash your computer. This is not an issue with the server.
+
+### Running the Web App
+
+```bash
+cd web
+trunk serve
+```
 
