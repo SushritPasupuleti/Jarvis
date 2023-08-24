@@ -22,6 +22,12 @@ Ensure you have the following installed:
 
     - [Riff Shell](https://www.riff.sh/) - For `nix` systems.
 
+- [Node.js](https://nodejs.org/en/download/)
+        
+    - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
+
+    - [tailwindcss](https://tailwindcss.com/docs/installation)
+
 Run the following commands:
 
 Activate virtual environment

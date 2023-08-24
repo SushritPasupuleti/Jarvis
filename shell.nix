@@ -3,5 +3,5 @@ with pkgs;
 mkShell rec {
   name = "sd-env";
   LD_LIBRARY_PATH = lib.makeLibraryPath [ gcc-unwrapped zlib libglvnd glib linuxPackages.nvidia_x11 ];
-  buildInputs = [ python39 python39Packages.pip git go rustup rustfmt trunk ];
+  buildInputs = [ python39 python39Packages.pip git go rustup rustfmt trunk nodejs_18 yarn nodePackages.tailwindcss ];
 }

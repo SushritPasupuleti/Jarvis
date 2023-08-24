@@ -89,7 +89,7 @@ func initialModel() model {
 
 	// vp := viewport.New(30, 5)
 	vp := viewport.New(300, 50)
-	vp.SetContent(`Welcome to the chat room!
+	vp.SetContent(`Welcome to the chat!
 Type a message and press Enter to send.`)
 
 	ta.KeyMap.InsertNewline.SetEnabled(false)
