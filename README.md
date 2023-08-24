@@ -29,7 +29,7 @@ chmod +x model/run.sh
 
 ### Nix Setup
 
-On `nix` systems, you can use the `shell.nix` file to setup the environment. This resolves certain issues with native bindings.
+On `nix` systems, you can use the `shell.nix` file to setup the environment. This resolves certain issues with native dependencies and provides the necessary tooling.
 
 ```bash
 nix-shell
