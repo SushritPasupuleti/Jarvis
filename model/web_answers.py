@@ -1,6 +1,7 @@
 from langchain.document_loaders import WebBaseLoader
 from main import hf
 import torch
+import sys
 
 web_links = [
     "https://help.braggi-ems.com/", 
@@ -44,7 +45,13 @@ chain = ConversationalRetrievalChain.from_llm(hf, vectorstore.as_retriever(), re
 
 chat_history = []
 
-query = "Tell me about the modules in Braggi EMS."
+if sys.argv[1] != None:
+    query = sys.argv[1]
+else:
+    query = "Tell me about the modules in Braggi EMS."
+
+# print("Question: ", question)
+
 result = chain({"question": query, "chat_history": chat_history})
 
 print("Answer: ", result['answer'])

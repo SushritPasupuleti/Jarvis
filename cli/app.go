@@ -5,14 +5,14 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"strings"
-	"os/exec"
+	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textarea"
 	"github.com/charmbracelet/bubbles/viewport"
-	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"log"
+	"os/exec"
+	"strings"
 )
 
 func main() {
@@ -57,13 +57,13 @@ type (
 
 type model struct {
 	viewport    viewport.Model
-	spinner  spinner.Model
+	spinner     spinner.Model
 	messages    []string
 	textarea    textarea.Model
 	senderStyle lipgloss.Style
 	replyStyle  lipgloss.Style
 	err         error
-	thinking bool
+	thinking    bool
 }
 
 func initialModel() model {
@@ -97,7 +97,7 @@ Type a message and press Enter to send.`)
 	return model{
 		textarea:    ta,
 		messages:    []string{},
-		spinner:  s,
+		spinner:     s,
 		viewport:    vp,
 		senderStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("5")),
 		replyStyle:  lipgloss.NewStyle().Foreground(lipgloss.Color("3")),
@@ -134,7 +134,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			var reply string
 			reply = execJarvis(m.textarea.Value())
 
-			m.messages = append(m.messages, m.replyStyle.Render("Jarvis: ") + reply)
+			m.messages = append(m.messages, m.replyStyle.Render("Jarvis: ")+reply)
 			m.thinking = false
 
 			m.viewport.SetContent(strings.Join(m.messages, "\n"))
@@ -171,7 +171,7 @@ func (m model) View() string {
 		"%s\n\n%s",
 		m.viewport.View(),
 		// m.spinner.View() + "Thinking... \n\n" +
-		spinner +
-		m.textarea.View(),
+		spinner+
+			m.textarea.View(),
 	) + "\n\n"
 }

@@ -8,6 +8,6 @@ else:
 
 # print("Question: ", question)
 
-answer = llm_chain.run("Explain recursion to me.")
+answer = llm_chain.run(question)
 
 print(answer)
