@@ -6,10 +6,23 @@ edition = "2021"
 [package.metadata.riff]
 build-inputs = ["openssl.dev", "openssl", "pkg-config"]
 
+[[hooks]]
+stage = "post_build"
+command = "sh"
+command_arguments = ["-c", "npx tailwindcss -i ./tailwind.css -o ./tailwind.css"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-yew = { version = "0.20.0", features = ["csr"] }
+# yew = { version = "0.20.0", features = ["csr"] }
 wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
 gloo = "0.8"
 js-sys = "0.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.68"
+gloo-net = "0.4.0"
+reqwasm = "0.5.0"
+wasm-logger = "0.2.0"
+gloo-console = "0.3.0"
+leptos = { version = "0.4.10", features = ["csr"] }
+gloo-timers = { version = "0.3.0", features = ["futures"] }

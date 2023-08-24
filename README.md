@@ -95,3 +95,4 @@ cd web
 trunk serve
 ```
 
+> Visit http://localhost:8080 to view the web app
