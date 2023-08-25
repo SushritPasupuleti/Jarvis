@@ -2,6 +2,22 @@
 
 Using Facebook's Llama to build myself a Jarvis.
 
+## Stack
+
+- [Python](https://www.python.org/) - Programming language + [Rust](https://www.rust-lang.org/) + [Go](https://golang.org/)
+
+- [FastAPI](https://fastapi.tiangolo.com/) - Python web framework
+
+- [LangChain](https://www.langchain.com/) + [HuggingFace](https://huggingface.co/) - Language models + [PyTorch](https://pytorch.org/)
+
+- [Leptos](https://leptos.dev/) - WASM Powered Web App
+
+- [Trunk](https://trunkrs.dev/) - Rust Web Assembly bundler
+
+- [TailwindCSS](https://tailwindcss.com/) - CSS Framework
+
+- [BubbleTea](https://github.com/charmbracelet/bubbletea) - Terminal UI framework
+
 ## Setup
 
 Ensure you have the following installed:

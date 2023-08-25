@@ -16,7 +16,7 @@ fn main() {
             <div
                 class="bg-white dark:bg-slate-800 p-10"
                 style="min-height: 100vh"
-                >
+            >
                 <div
                     class="bg-gray-200 dark:bg-slate-700 flex flex-col items-center justify-center py-10 px-10 rounded-lg shadow-xl ring-1 ring-slate-900/5 border border-gray-700"
                 >
@@ -27,8 +27,8 @@ fn main() {
                     </h1>
                     <br />
                     <Chat />
-                    </div>
                 </div>
+            </div>
         }
     })
 }
