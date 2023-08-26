@@ -8,6 +8,8 @@ Using Facebook's Llama to build myself a Jarvis.
 
 - [FastAPI](https://fastapi.tiangolo.com/) - Python web framework
 
+- [gRPC](https://grpc.io/) - Remote Procedure Call framework + [Protocol Buffers](https://developers.google.com/protocol-buffers) - Data serialization
+
 - [LangChain](https://www.langchain.com/) + [HuggingFace](https://huggingface.co/) - Language models + [PyTorch](https://pytorch.org/)
 
 - [Leptos](https://leptos.dev/) - WASM Powered Web App
@@ -112,3 +114,12 @@ trunk serve
 ```
 
 > Visit http://localhost:8080 to view the web app
+
+## Development
+
+Generating code from `.proto` files
+
+```bash
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./model.proto
+```
+

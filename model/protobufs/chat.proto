@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message Question {
+	string question = 1;
+}
+
+message Answer {
+	string answer = 1;
+}
+
+service QuestionAnswer {
+	rpc AskQuestion(Question) returns (Answer);
+}
