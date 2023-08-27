@@ -1,14 +1,26 @@
 # Jarvis
 
-Using Facebook's Llama to build myself a Jarvis.
+Using Facebook's Llama to build myself a versatile set of AI-powered tools.
+
+## Features
+
+- [x] Simple ChatGPT style chatbot
+
+- [x] Question Answering from given data sources (Web links, PDFs, etc.)
+
+- [x] Summarization of given text
+
+- [ ] Code generation like ChatGPT???
+
+- [ ] gRPC server to allow calls from a better web framework like Axum, Chi, etc.
 
 ## Stack
 
-- [Python](https://www.python.org/) - Programming language + [Rust](https://www.rust-lang.org/) + [Go](https://golang.org/)
+- [Python](https://www.python.org/) + [Rust](https://www.rust-lang.org/) + [Go](https://golang.org/)
 
 - [FastAPI](https://fastapi.tiangolo.com/) - Python web framework
 
-- [gRPC](https://grpc.io/) - Remote Procedure Call framework + [Protocol Buffers](https://developers.google.com/protocol-buffers) - Data serialization
+- [gRPC](https://grpc.io/) - Remote Procedure Call framework, to overcome the inherent inefficiencies of Python web frameworks + [Protocol Buffers](https://developers.google.com/protocol-buffers) - Data serialization
 
 - [LangChain](https://www.langchain.com/) + [HuggingFace](https://huggingface.co/) - Language models + [PyTorch](https://pytorch.org/)
 

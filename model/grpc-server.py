@@ -6,7 +6,10 @@ import chat_pb2_grpc as chat__pb2_grpc
 
 from main import llm_chain
 
+max_workers = 10
+
 class QuestionAnswerServicer(chat__pb2_grpc.QuestionAnswerServicer):
+    # the caller is responsible for checking cache before calling this
     def AskQuestion(self, request, context):
         print("Request: ", request)
         print("Context: ", context)
@@ -16,7 +19,7 @@ class QuestionAnswerServicer(chat__pb2_grpc.QuestionAnswerServicer):
         return chat__pb2.Answer(answer=answer)
 
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
     chat__pb2_grpc.add_QuestionAnswerServicer_to_server(
         QuestionAnswerServicer(), server
     )
