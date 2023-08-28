@@ -68,9 +68,9 @@ class WebLinks(BaseModel):
 async def web_chat(web_links: WebLinks):
     result = get_web_answers(web_links.links, web_links.question)
 
-    return JSONResponse({
+    return {
         "question": web_links.question,
         "answer": result['answer'],
         "source": result['source_documents'],
-    })
+    }
 
