@@ -9,42 +9,36 @@ import (
 )
 
 type Question struct {
-	ID         uuid.UUID `json:"id"`
-	question   string    `json:"question"`
-	answer     string    `json:"answer"`
-	created_at time.Time `json:"created_at"`
-	updated_at time.Time `json:"updated_at"`
-	user_id    uuid.UUID `json:"user_id"`
+	ID         uuid.UUID `json:"id,omitempty"`
+	Question   string    `json:"question,omitempty"`
+	Answer     string    `json:"answer,omitempty"`
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	UserID    uuid.UUID `json:"user_id,omitempty"`
 }
 
-func (q *Question) Create() error {
+func (q *Question) Create(question Question) (*Question, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 
 	defer cancel()
 
 	query := `INSERT INTO questions (question, answer, created_at, updated_at, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`
 
-	rows, err := db.QueryContext(ctx, query, q.question, q.answer, time.Now(), time.Now(), q.user_id)
+	_, err := db.ExecContext(
+		ctx,
+		query,
+		question.Question,
+		question.Answer,
+		time.Now(),
+		time.Now(),
+		question.UserID,
+	)
+
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	var questions []*Question
-	for rows.Next() {
-		var question Question
-		err := rows.Scan(&question.ID, &question.question, &question.answer, &question.created_at, &question.updated_at, &question.user_id)
-		if err != nil {
-			return err
-		}
-
-		questions = append(questions, &question)
-	}
-
-	if len(questions) == 0 {
-		return errors.New("No question found")
-	}
-
-	return nil
+	return &question, nil
 }
 
 func (q *Question) FindAll() ([]*Question, error) {
@@ -62,7 +56,7 @@ func (q *Question) FindAll() ([]*Question, error) {
 	var questions []*Question
 	for rows.Next() {
 		var question Question
-		err := rows.Scan(&question.ID, &question.question, &question.answer, &question.created_at, &question.updated_at, &question.user_id)
+		err := rows.Scan(&question.ID, &question.Question, &question.Answer, &question.CreatedAt, &question.UpdatedAt, &question.UserID)
 		if err != nil {
 			return nil, err
 		}
