@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"server/db"
 )
 
 type Config struct {
@@ -48,6 +49,15 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
+
+	dbConn, err := db.Connect(dsn)
+	if err != nil {
+		log.Fatal("Error connecting to database", err)
+	}
+
+	defer dbConn.DB.Close()
 
 	app := Application{
 		Config: Config{
