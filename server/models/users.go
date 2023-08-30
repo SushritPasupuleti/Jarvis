@@ -10,10 +10,10 @@ import (
 )
 
 type User struct {
-	ID         uuid.UUID `json:"id,omitempty"`
-	Name       string    `json:"name,omitempty"`
+	ID        uuid.UUID `json:"id,omitempty"`
+	Name      string    `json:"name,omitempty"`
 	Emai      string    `json:"email,omitempty"`
-	Password   string    `json:"password,omitempty"`
+	Password  string    `json:"password,omitempty"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
@@ -33,9 +33,9 @@ func (u *User) Create(user User) (*User, error) {
 		user.Password,
 		time.Now(),
 		time.Now(),
-	)	
+	)
 
-	if err != nil {	
+	if err != nil {
 		log.Println(err)
 		return nil, err
 	}

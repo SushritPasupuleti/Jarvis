@@ -2,6 +2,8 @@
 
 Using Facebook's Llama to build myself a versatile set of AI-powered tools.
 
+This repo also serves as a testbed for various frameworks I want to experiment with.
+
 ## Features
 
 - [x] Simple ChatGPT style chatbot
@@ -10,9 +12,11 @@ Using Facebook's Llama to build myself a versatile set of AI-powered tools.
 
 - [x] Summarization of given text
 
+- [x] gRPC server to allow calls from a better web framework like Axum, Chi, etc.
+
 - [ ] Code generation like ChatGPT???
 
-- [ ] gRPC server to allow calls from a better web framework like Axum, Chi, etc.
+- [ ] A service that provides Multi-User access???
 
 ## Stack
 

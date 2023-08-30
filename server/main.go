@@ -6,8 +6,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
+	"server/models"
+	"server/routes"
 	"server/db"
+
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -16,7 +19,7 @@ type Config struct {
 
 type Application struct {
 	Config Config
-	//TODO: add models
+	Models models.Models
 }
 
 func (app *Application) Serve() error {
@@ -36,7 +39,7 @@ func (app *Application) Serve() error {
 
 	srv := &http.Server{
 		Addr: fmt.Sprintf(":%s", port),
-		//TODO: add router
+		Handler: routes.Routes(),
 	}
 
 	return srv.ListenAndServe()
@@ -63,6 +66,7 @@ func main() {
 		Config: Config{
 			Port: os.Getenv("PORT"),
 		},
+		Models: models.New(dbConn.DB),
 	}
 
 	err = app.Serve()

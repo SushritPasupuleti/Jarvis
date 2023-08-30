@@ -9,9 +9,9 @@ import (
 )
 
 type Question struct {
-	ID         uuid.UUID `json:"id,omitempty"`
-	Question   string    `json:"question,omitempty"`
-	Answer     string    `json:"answer,omitempty"`
+	ID        uuid.UUID `json:"id,omitempty"`
+	Question  string    `json:"question,omitempty"`
+	Answer    string    `json:"answer,omitempty"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 	UserID    uuid.UUID `json:"user_id,omitempty"`
