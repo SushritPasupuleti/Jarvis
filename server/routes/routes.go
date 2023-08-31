@@ -24,9 +24,13 @@ func Routes() http.Handler {
 		MaxAge:           300,
 	}))
 
-	router.Route("/api/v1/users", func(r chi.Router) {
-		r.Get("/", handlers.GetAllUsers)
-		r.Post("/", handlers.CreateUser)
+	router.Group(func(r chi.Router) {
+		router.Route("/api/v1/users", func(r chi.Router) {
+			r.Get("/", handlers.GetAllUsers)
+			r.Post("/", handlers.CreateUser)
+			r.Get("/{email}", handlers.FindUserByEmail)
+			r.Put("/", handlers.UpdateUserByEmail)
+		})
 	})
 
 	// router.Get("/api/v1/users", handlers.GetAllUsers)
