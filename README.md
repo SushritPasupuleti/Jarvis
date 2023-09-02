@@ -4,7 +4,7 @@ Using Facebook's Llama to build myself a versatile set of AI-powered tools.
 
 This repo also serves as a testbed for various frameworks I want to experiment with.
 
-## Features
+The following features have been implemented:
 
 - [x] Simple ChatGPT style chatbot
 
@@ -14,9 +14,29 @@ This repo also serves as a testbed for various frameworks I want to experiment w
 
 - [x] gRPC server to allow calls from a better web framework like Axum, Chi, etc.
 
-- [ ] Code generation like ChatGPT???
+- [x] Code generation like GitHub Copilot (with IDE integration for Vim, VSCode, etc.)
+
+The following features are planned:
 
 - [ ] A service that provides Multi-User access???
+
+# Table of contents
+
+1. [Jarvis](#jarvis)
+   1. [Notes](#notes)
+   2. [Stack](#stack)
+   3. [Setup](#setup)
+      1. [Nix Setup](#nix-setup)
+   4. [Usage](#usage)
+      1. [Running as server](#running-as-server)
+      2. [Running as CLI](#running-as-cli)
+      3. [Running the Web App](#running-the-web-app)
+   5. [Development](#development)
+      1. [Running Codegen](#running-codegen)
+
+## Notes
+
+[Notes.md](./Notes.md) contains my notes on the project.
 
 ## Stack
 
@@ -46,21 +66,21 @@ Ensure you have the following installed:
 
 - [Rust](https://www.rust-lang.org/tools/install)
 
-    - [Trunk](https://trunkrs.dev/)
-    
-        May need to run the following:
+  - [Trunk](https://trunkrs.dev/)
 
-        ```bash
-        rustup target add wasm32-unknown-unknown
-        ```
+    May need to run the following:
 
-    - [Riff Shell](https://www.riff.sh/) - For `nix` systems.
+    ```bash
+    rustup target add wasm32-unknown-unknown
+    ```
+
+  - [Riff Shell](https://www.riff.sh/) - For `nix` systems.
 
 - [Node.js](https://nodejs.org/en/download/)
-        
-    - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 
-    - [tailwindcss](https://tailwindcss.com/docs/installation)
+  - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
+
+  - [tailwindcss](https://tailwindcss.com/docs/installation)
 
 Run the following commands:
 
@@ -101,8 +121,6 @@ Activate virtual environment
 source venv/bin/activate
 ```
 
-## Usage
-
 ### Running as server
 
 ```bash
@@ -139,3 +157,40 @@ Generating code from `.proto` files
 python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./model.proto
 ```
 
+### Running Codegen
+
+Edit your `copilot` extension's settings to include the following properties:
+
+For NeoVim, use [Copilot.lua](https://github.com/zbirenbaum/copilot.lua/tree/master):
+
+```lua
+require("copilot").setup {
+  server_opts_overrides = {
+    trace = "verbose",
+    DebugOverrideProxyUrl = {
+        advanced = "http://localhost:8000"
+    },
+    DebugTestOverrideProxyUrl = {
+        advanced = "http://localhost:8000"
+    },
+    DebugOverrideEngine = {
+        advanced = "codegen"
+    }
+  }
+}
+```
+
+For `VSCode`, this goes into the `settings.json` file:
+
+```json
+"github.copilot.advanced": {
+    "debug.overrideEngine": "codegen",
+    "debug.testOverrideProxyUrl": "http://localhost:8000",
+    "debug.overrideProxyUrl": "http://localhost:8000",
+}
+```
+
+```bash
+cd model
+uvicorn local-pilot-server:app --reload
+```

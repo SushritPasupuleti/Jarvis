@@ -17,6 +17,8 @@ else:
 
 model_path = "codellama/CodeLlama-7b-hf"
 
+max_new_tokens = 128
+
 bnb_config = transformers.BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type='nf4',
@@ -34,10 +36,10 @@ model = LlamaForCausalLM.from_pretrained(
 # tokenizer = CodeLlamaTokenizer.from_pretrained(model_path)
 tokenizer = LlamaTokenizer.from_pretrained(model_path)
 
-PROMPT = '''def fibonacci(n: int) -> int:
-    """ <FILL_ME>
-    return result
-'''
+# PROMPT = '''def fibonacci(n: int) -> int:
+#     """ <FILL_ME>
+#     return result
+# '''
 
 stop_list = ['\n\n\n']
 
@@ -54,20 +56,67 @@ class StopOnTokens(StoppingCriteria):
 
 stopping_criteria = StoppingCriteriaList([StopOnTokens()])
 
-input_ids = tokenizer(PROMPT, return_tensors="pt")["input_ids"]
-input_ids = input_ids.to(device)
-generated_ids = model.generate(input_ids, max_new_tokens=128, #pyright: ignore
-    do_sample=True,
-    # temperature=0,
-    top_p=0,
-    # n=1,
-    # stop=["\n"],
-    # extra={
-    #     "language": "python",
-    # }
-    stopping_criteria=stopping_criteria,
-)
+# async def generate(prompt: str):
+def generate(prompt: str):
+    
+    input_ids = tokenizer(prompt, return_tensors="pt")["input_ids"]
+    input_ids = input_ids.to(device)
 
-filling = tokenizer.batch_decode(generated_ids[:, input_ids.shape[1]:], skip_special_tokens = True)[0]
+    generated_ids = model.generate(input_ids, #pyright: ignore
+        max_new_tokens=max_new_tokens, 
+        # do_sample=True,
+        # temperature=0,
+        # top_p=0,
+        # n=1,
+        # stop=["\n"],
+        # extra={
+        #     "language": "python",
+        # }
+        # stopping_criteria=stopping_criteria,
+    )
 
-print(PROMPT.replace("<FILL_ME>", filling))
+    # print("Generated IDs:", generated_ids)
+
+    filling = tokenizer.batch_decode(generated_ids[:, input_ids.shape[1]:], skip_special_tokens = True)[0]
+
+    print("Filling:", filling)
+
+    return prompt.replace("<FILL_ME>", filling)
+
+def generate_skip_filling(prompt: str):
+    input_ids = tokenizer(prompt, return_tensors="pt")["input_ids"]
+    input_ids = input_ids.to(device)
+
+    generated_ids = model.generate(input_ids, #pyright: ignore
+        max_new_tokens=max_new_tokens, 
+        do_sample=True,
+        # temperature=0,
+        top_p=0,
+        # n=1,
+        # stop=["\n"],
+        # extra={
+        #     "language": "python",
+        # }
+        stopping_criteria=stopping_criteria,
+    )
+
+    result = tokenizer.batch_decode(generated_ids[:, input_ids.shape[1]:], skip_special_tokens = True)[0]
+
+    return result
+
+if __name__ == "__main__":
+    import sys
+
+    if sys.argv[1] != None:
+        question = sys.argv[1]
+    else:
+        question = '''def factorial(n: int) -> int:
+            """ <FILL_ME>
+        return result
+        '''
+
+    answer = generate_skip_filling(question)
+
+    print("Question: ", question)
+
+    print("Generated: \n", answer, "\n\n\n")
