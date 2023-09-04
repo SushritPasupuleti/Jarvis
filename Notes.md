@@ -8,7 +8,7 @@ By intercepting the requests that the Copilot Extension makes, the following pay
 
 ```json
 {
-    "prompt": "#!/usr/bin/env python3\nprint("Hello world")\nprint(",
+    "prompt": "#!/usr/bin/env python3\nprint(\"Hello world\")\nprint(",
     "suffix": "",
     "max_tokens": 500,
     "temperature": 0,

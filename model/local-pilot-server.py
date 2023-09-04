@@ -71,6 +71,6 @@ async def code_completion(body: dict):
 
     if "stream" in body and body["stream"]:
         return StreamingResponse(stream(), media_type="application/json")
-        return "data: %s\n\n" % answer
+        # return "data: %s\n\n" % answer
     else:
         return "data: %s" % answer
