@@ -63,10 +63,14 @@ class WebLinks(BaseModel):
     links: list
     question: str
 
+class DocLinks(WebLinks):
+    links: list
+    question: str
+
 @app.post("/web/chat/")
 @cache(namespace="jarvis", expire=cache_duration)
 async def web_chat(web_links: WebLinks):
-    result = get_web_answers(web_links.links, web_links.question)
+    result = get_web_answers(web_links.links, "web", web_links.question)
 
     return {
         "question": web_links.question,
@@ -74,3 +78,13 @@ async def web_chat(web_links: WebLinks):
         "source": result['source_documents'],
     }
 
+@app.post("/doc/chat/")
+@cache(namespace="jarvis", expire=cache_duration)
+async def doc_chat(doc_links: DocLinks):
+    result = get_web_answers(doc_links.links, "doc", doc_links.question)
+
+    return {
+        "question": doc_links.question,
+        "answer": result['answer'],
+        "source": result['source_documents'],
+    }

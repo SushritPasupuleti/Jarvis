@@ -1,11 +1,29 @@
-from langchain.document_loaders import WebBaseLoader
+from langchain.document_loaders import WebBaseLoader, TextLoader 
 from main import hf
 import torch
 import sys
 
-def get_web_answers(web_links, question):
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+def load_documents(documents):
+    loader = TextLoader(documents)
+    documents = loader.load()
+
+    return documents
+
+def load_web_documents(web_links):
     loader = WebBaseLoader(web_links)
     documents = loader.load()
+
+    return documents
+
+def get_web_answers(sources, mode, question):
+    documents = []
+
+    if mode == "web":
+        documents = load_web_documents(sources)
+    else:
+        documents = load_documents(sources)
 
     from langchain.text_splitter import RecursiveCharacterTextSplitter
 
@@ -14,8 +32,6 @@ def get_web_answers(web_links, question):
 
     from langchain.embeddings import HuggingFaceEmbeddings
     from langchain.vectorstores import FAISS
-
-    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     model_name = "sentence-transformers/all-mpnet-base-v2"
     model_kwargs = {"device": device}
